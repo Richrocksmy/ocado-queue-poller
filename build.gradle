@@ -18,7 +18,6 @@ group "ocado.queue.poller"
 ext {
     appEngineProjectVersion = project.version
     appEngineProjectId = 'ocado-poller'
-    entryPoint = 'com.richrocksmy.ocadoqueuepoller.Application'
 
     micronautVersion = '2.0.0.M1'
 }
@@ -64,10 +63,9 @@ tasks.withType(JavaCompile){
     options.compilerArgs.add('-parameters')
 }
 
-mainClassName = "ocado.queue.poller.Application"
+mainClassName = "com.richrocksmy.ocadoqueuepoller.Application"
 
 shadowJar {
-    mainClassName = entryPoint
     mergeServiceFiles()
 }
 
