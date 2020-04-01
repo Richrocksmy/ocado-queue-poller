@@ -1,0 +1,5 @@
+profile: service
+defaultPackage: ocado.queue.poller
+---
+testFramework: junit
+sourceLanguage: java

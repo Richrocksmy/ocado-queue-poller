@@ -1,0 +1,85 @@
+buildscript {
+    dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.2.0'
+    }
+}
+
+plugins {
+    id "application"
+    id "net.ltgt.apt-eclipse" version "0.21"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+apply plugin: 'com.google.cloud.tools.appengine'
+
+version "1-2"
+group "ocado.queue.poller"
+
+ext {
+    appEngineProjectVersion = project.version
+    appEngineProjectId = 'ocado-poller'
+    entryPoint = 'com.richrocksmy.ocadoqueuepoller.Application'
+
+    micronautVersion = '2.0.0.M1'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    developmentOnly
+}
+
+dependencies {
+
+    annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+
+    implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    implementation "io.micronaut:micronaut-inject"
+    implementation "io.micronaut:micronaut-validation"
+    implementation "io.micronaut:micronaut-runtime"
+    implementation "javax.annotation:javax.annotation-api"
+    implementation "io.micronaut:micronaut-http-server-netty"
+    implementation "io.micronaut:micronaut-http-client"
+    runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
+
+    testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+
+    testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+test.classpath += configurations.developmentOnly
+test {
+    useJUnitPlatform()
+}
+tasks.withType(JavaCompile){
+    options.encoding = "UTF-8"
+    options.compilerArgs.add('-parameters')
+}
+
+mainClassName = "ocado.queue.poller.Application"
+
+shadowJar {
+    mainClassName = entryPoint
+    mergeServiceFiles()
+}
+
+tasks.withType(JavaExec) {
+    classpath += configurations.developmentOnly
+    jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+}
+
+appengine {
+    stage.artifact = "${buildDir}/libs/${project.name}-${project.version}-all.jar"
+    deploy {
+        projectId = appEngineProjectId
+        version = appEngineProjectVersion
+    }
+}
