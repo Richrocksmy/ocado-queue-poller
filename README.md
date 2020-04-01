@@ -18,7 +18,7 @@ might have a number appended to it by GCP to make it unique, if so you will need
 ```build.gradle``` ```appEngineProjectId``` field to reflect this change)
 - In the root of the project directory, run ```gcloud init```
 - In the root of the project directory, run ```gcloud app create```. You will be asked to set your,
-it makes sense to choose somewhere in the UK or Europe as this is closest to Ocado's data centres 
+region - it makes sense to choose somewhere in the UK or Europe as this is closest to Ocado's data centres 
 (presumably).
 - Run ```./gradlew appenginedeploy``` to deploy the application to GCP.
 
