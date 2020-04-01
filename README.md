@@ -9,7 +9,7 @@ help people who aren't able to always be infront of a device to check this.
 
 ### Prerequisites
 
-- Google cloud library SDK installed ([here](https://cloud.google.com/sdk/install))
+- Google cloud SDK installed ([here](https://cloud.google.com/sdk/install))
 
 ### Usage
 
