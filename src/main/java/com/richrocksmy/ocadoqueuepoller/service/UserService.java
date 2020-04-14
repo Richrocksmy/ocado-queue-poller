@@ -10,13 +10,11 @@ import javax.inject.Singleton;
 @RequiredArgsConstructor
 public class UserService {
 
-//    private final UserRepository userRepository;
-
     public String addUser(final String email) {
-        return "dd";
+        throw new UnsupportedOperationException();
     }
 
     public String deleteUser(final String email) {
-        return "dd";
+        throw new UnsupportedOperationException();
     }
 }
